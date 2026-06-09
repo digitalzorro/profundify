@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profundify</title>
+  <meta name="description" content="Profundify — AI, Python, and deeper thinking." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #08111b;
+      --card: rgba(15, 24, 36, 0.82);
+      --text: #eef4ff;
+      --muted: #b3bfd8;
+      --accent: #39ffb6;
+      --border: rgba(57, 255, 182, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    #matrix {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      opacity: 0.50;
+      pointer-events: none;
+    }
+
+    .screen {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at top, rgba(57, 255, 182, 0.05), transparent 35%),
+        linear-gradient(180deg, rgba(8, 17, 27, 0.20), rgba(8, 17, 27, 0.45));
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 56px 20px;
+    }
+
+    .hero {
+      padding: 56px 0 28px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 3rem;
+      letter-spacing: -0.03em;
+      font-weight: 800;
+    }
+
+    .tagline {
+      margin: 0 0 16px;
+      color: var(--accent);
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .intro {
+      max-width: 700px;
+      color: var(--muted);
+      font-size: 1.04rem;
+      line-height: 1.75;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+      margin-top: 34px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 1.12rem;
+      font-weight: 700;
+    }
+
+    .card p, .card li {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.98rem;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .footer {
+      margin-top: 46px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .container {
+        padding: 34px 16px;
+      }
+
+      #matrix {
+        opacity: 0.32;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #matrix {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+  <div class="screen"></div>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Profundify</h1>
+      <p class="tagline">AI, Python, and deeper thinking.</p>
+      <p class="intro">
+        A personal lab for projects, notes, and thoughtful exploration at the intersection of artificial intelligence,
+        software, learning, and life.
+      </p>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>What this is</h2>
+        <p>
+          Profundify is my online home for building in public, learning deeply, and sharing work as I grow in AI,
+          Python, and cloud technology.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>What you'll find</h2>
+        <ul>
+          <li>AI and Python projects</li>
+          <li>Learning notes and experiments</li>
+          <li>Thoughts on technology and depth</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Current direction</h2>
+        <p>
+          I’m focused on AI, Python, and cloud learning, while building a body of work that is practical, honest,
+          and useful.
+        </p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Built by digitalzorro. Fabriqué au Canada Contact: <a href="mailto:digitaldamx@gmail.com">digitaldamx@gmail.com</a></p>
+    </footer>
+  </main>
+
+  <script>
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    let fontSize = 22;
+    let columns = 0;
+    let rainDrops = [];
+
+    const katakana = "アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン";
+    const latin = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const nums = "0123456789";
+    const alphabet = katakana + latin + nums;
+
+    function setupCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      fontSize = window.innerWidth < 640 ? 18 : 22;
+      columns = Math.floor(canvas.width / fontSize);
+
+      rainDrops = [];
+      for (let x = 0; x < columns; x++) {
+        rainDrops[x] = Math.random() * canvas.height / fontSize;
+      }
+    }
+
+    function draw() {
+      ctx.fillStyle = "rgba(8, 17, 27, 0.09)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#39ffb6";
+      ctx.font = "600 " + fontSize + "px monospace";
+
+      for (let i = 0; i < rainDrops.length; i++) {
+        const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+        ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+        if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.985) {
+          rainDrops[i] = 0;
+        }
+
+        rainDrops[i] += 0.35;
+      }
+    }
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!reduceMotion) {
+      setupCanvas();
+      setInterval(draw, 55);
+      window.addEventListener("resize", setupCanvas);
+    } else {
+      canvas.style.display = "none";
+    }
+  </script>
+</body>
+</html>
