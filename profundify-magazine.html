@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profundify Magazine</title>
+  <meta name="description" content="Profundify magazine-style homepage for AI, Python, cloud learning, projects, and deeper notes." />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=boska@400,700&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="light"] {
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --space-20: 5rem;
+      --color-bg: #f7f6f2;
+      --color-surface: #f9f8f5;
+      --color-surface-2: #fbfbf9;
+      --color-surface-offset: #f1efea;
+      --color-border: #d4d1ca;
+      --color-divider: #dcd9d5;
+      --color-text: #28251d;
+      --color-text-muted: #6f6c66;
+      --color-text-faint: #a5a29d;
+      --color-primary: #01696f;
+      --color-primary-hover: #0c4e54;
+      --color-primary-highlight: #d8e7e5;
+      --radius-sm: 0.375rem;
+      --radius-md: 0.75rem;
+      --radius-lg: 1rem;
+      --radius-xl: 1.5rem;
+      --shadow-sm: 0 1px 2px rgba(27, 26, 22, 0.06);
+      --shadow-md: 0 10px 30px rgba(27, 26, 22, 0.08);
+      --font-body: 'Satoshi', system-ui, sans-serif;
+      --font-display: 'Boska', Georgia, serif;
+      --content: 1180px;
+      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    [data-theme="dark"] {
+      --color-bg: #171614;
+      --color-surface: #1c1b19;
+      --color-surface-2: #201f1d;
+      --color-surface-offset: #252321;
+      --color-border: #393836;
+      --color-divider: #2a2927;
+      --color-text: #e3e0d8;
+      --color-text-muted: #b1ada5;
+      --color-text-faint: #7c7974;
+      --color-primary: #4f98a3;
+      --color-primary-hover: #78aeb6;
+      --color-primary-highlight: #243739;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.24);
+      --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.32);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: 1.6;
+      background: var(--color-bg);
+      color: var(--color-text);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; height: auto; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    :focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+
+    .container {
+      width: min(calc(100% - 2rem), var(--content));
+      margin-inline: auto;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: var(--space-2);
+      background: var(--color-primary);
+      color: white;
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-full, 9999px);
+      z-index: 100;
+    }
+    .skip-link:focus { left: var(--space-2); }
+
+    .topbar {
+      border-bottom: 1px solid var(--color-divider);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      background: var(--color-surface-2);
+    }
+    .topbar-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-4);
+      padding: 0.7rem 0;
+      flex-wrap: wrap;
+    }
+    .topbar-links, .meta-links {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+      border-bottom: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
+    }
+    .header-inner {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: var(--space-6);
+      align-items: center;
+      padding: 1rem 0;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-weight: 700;
+    }
+    .brand-mark {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--color-primary-highlight), var(--color-surface-offset));
+      color: var(--color-primary);
+      border: 1px solid color-mix(in srgb, var(--color-primary) 20%, var(--color-border));
+      flex-shrink: 0;
+    }
+    .brand-mark svg { width: 1.3rem; height: 1.3rem; }
+    .brand-text strong {
+      display: block;
+      font-size: var(--text-base);
+      letter-spacing: -0.02em;
+    }
+    .brand-text span {
+      display: block;
+      color: var(--color-text-muted);
+      font-size: var(--text-xs);
+      margin-top: -0.1rem;
+    }
+
+    .nav-wrap {
+      display: flex;
+      justify-content: center;
+    }
+    .nav {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .nav details {
+      position: relative;
+    }
+    .nav summary,
+    .nav-link {
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.75rem 0.85rem;
+      border-radius: 999px;
+      font-size: var(--text-sm);
+      color: var(--color-text);
+      transition: background var(--transition), color var(--transition);
+    }
+    .nav summary::-webkit-details-marker { display: none; }
+    .nav summary:hover,
+    .nav-link:hover,
+    .nav details[open] summary {
+      background: var(--color-surface-offset);
+      color: var(--color-primary);
+    }
+    .dropdown {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      left: 0;
+      min-width: 220px;
+      padding: var(--space-2);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      display: grid;
+      gap: 0.2rem;
+    }
+    .dropdown a {
+      padding: 0.75rem 0.85rem;
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+    .dropdown a:hover {
+      background: var(--color-surface-offset);
+      color: var(--color-text);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.7rem 0.9rem;
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+      background: var(--color-surface);
+      min-width: 240px;
+    }
+    .search input {
+      border: 0;
+      background: transparent;
+      width: 100%;
+      outline: 0;
+      color: var(--color-text);
+    }
+    .theme-toggle {
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 50%;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text);
+    }
+
+    main { padding: var(--space-8) 0 var(--space-16); }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 0.9fr;
+      gap: var(--space-6);
+      align-items: stretch;
+    }
+    .hero-card,
+    .panel,
+    .story-card,
+    .mini-card,
+    .newsletter,
+    .topic-card,
+    .footer-card {
+      background: var(--color-surface);
+      border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
+    }
+    .hero-card {
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      min-height: 480px;
+    }
+    .hero-copy {
+      padding: clamp(1.5rem, 4vw, 3rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: var(--space-6);
+    }
+    .eyebrow,
+    .meta,
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: var(--text-xs);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .eyebrow {
+      color: var(--color-primary);
+      font-weight: 700;
+    }
+    .hero-copy h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 5vw, 4.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      margin: 0;
+    }
+    .hero-copy p {
+      max-width: 58ch;
+      color: var(--color-text-muted);
+      margin: 0;
+    }
+    .hero-actions {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0.85rem 1.1rem;
+      border-radius: 999px;
+      font-size: var(--text-sm);
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: background var(--transition), transform var(--transition), border-color var(--transition);
+    }
+    .btn-primary {
+      background: var(--color-primary);
+      color: white;
+    }
+    .btn-primary:hover { background: var(--color-primary-hover); }
+    .btn-secondary {
+      background: var(--color-surface-offset);
+      border-color: var(--color-border);
+    }
+    .btn-secondary:hover { background: var(--color-primary-highlight); }
+    .hero-visual {
+      position: relative;
+      background:
+        radial-gradient(circle at top left, color-mix(in srgb, var(--color-primary) 20%, transparent), transparent 45%),
+        linear-gradient(160deg, var(--color-surface-offset), var(--color-surface-2));
+      padding: var(--space-6);
+      display: grid;
+      align-content: end;
+    }
+    .hero-stack {
+      display: grid;
+      gap: var(--space-4);
+    }
+    .hero-note {
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      background: color-mix(in srgb, var(--color-surface) 78%, transparent);
+      border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
+      backdrop-filter: blur(8px);
+    }
+    .hero-note strong { display: block; margin-bottom: 0.35rem; }
+    .hero-note p {
+      margin: 0;
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+    }
+
+    .panel {
+      padding: var(--space-6);
+      display: grid;
+      gap: var(--space-5);
+    }
+    .panel h2,
+    .section-title {
+      margin: 0;
+      font-size: var(--text-lg);
+      line-height: 1.1;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.7rem);
+      margin-bottom: var(--space-2);
+    }
+    .panel-list,
+    .story-grid,
+    .topic-grid,
+    .footer-grid {
+      display: grid;
+      gap: var(--space-4);
+    }
+    .panel-item {
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--color-divider);
+    }
+    .panel-item:last-child { border-bottom: 0; padding-bottom: 0; }
+    .panel-item a {
+      display: block;
+      font-weight: 700;
+      margin: 0.35rem 0;
+    }
+    .meta { color: var(--color-text-muted); }
+
+    .section {
+      padding-top: clamp(2.5rem, 6vw, 5rem);
+    }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+      flex-wrap: wrap;
+    }
+    .section-head p {
+      color: var(--color-text-muted);
+      max-width: 60ch;
+      margin: 0;
+    }
+
+    .story-grid {
+      grid-template-columns: 1.3fr 1fr 1fr;
+      align-items: stretch;
+    }
+    .story-card {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+    .story-media {
+      aspect-ratio: 16 / 10;
+      background:
+        radial-gradient(circle at top, color-mix(in srgb, var(--color-primary) 18%, transparent), transparent 45%),
+        linear-gradient(140deg, var(--color-surface-offset), var(--color-surface-2));
+      border-bottom: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
+    }
+    .story-body {
+      padding: var(--space-5);
+      display: grid;
+      gap: var(--space-3);
+      height: 100%;
+    }
+    .story-body h3,
+    .mini-card h3,
+    .topic-card h3,
+    .newsletter h3,
+    .footer-card h3 {
+      margin: 0;
+      font-size: 1.15rem;
+      line-height: 1.25;
+    }
+    .story-body p,
+    .mini-card p,
+    .topic-card p,
+    .newsletter p,
+    .footer-card p {
+      margin: 0;
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+    }
+
+    .content-layout {
+      display: grid;
+      grid-template-columns: 1.5fr 0.8fr;
+      gap: var(--space-6);
+      align-items: start;
+    }
+    .main-column,
+    .side-column {
+      display: grid;
+      gap: var(--space-5);
+    }
+    .mini-card,
+    .newsletter,
+    .topic-card,
+    .footer-card {
+      padding: var(--space-5);
+    }
+    .mini-card {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: var(--space-4);
+      align-items: center;
+    }
+    .mini-thumb {
+      aspect-ratio: 1 / 1;
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--color-primary) 16%, transparent), transparent),
+        var(--color-surface-offset);
+      border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
+    }
+    .chip {
+      color: var(--color-primary);
+      font-weight: 700;
+    }
+
+    .newsletter form {
+      display: grid;
+      gap: var(--space-3);
+      margin-top: var(--space-4);
+    }
+    .newsletter input {
+      min-height: 48px;
+      border-radius: 999px;
+      border: 1px solid var(--color-border);
+      padding: 0 1rem;
+      background: var(--color-surface-2);
+      color: var(--color-text);
+    }
+
+    .topic-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .topic-card {
+      min-height: 220px;
+      display: grid;
+      align-content: start;
+      gap: var(--space-3);
+    }
+
+    footer {
+      padding: var(--space-16) 0 var(--space-10);
+      border-top: 1px solid var(--color-divider);
+      margin-top: var(--space-16);
+    }
+    .footer-grid {
+      grid-template-columns: 1.3fr repeat(3, 1fr);
+    }
+    .footer-card ul {
+      list-style: none;
+      padding: 0;
+      margin: var(--space-4) 0 0;
+      display: grid;
+      gap: 0.7rem;
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+    }
+    .copyright {
+      margin-top: var(--space-8);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--color-divider);
+      color: var(--color-text-muted);
+      font-size: var(--text-xs);
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 1100px) {
+      .header-inner,
+      .hero-grid,
+      .content-layout,
+      .story-grid,
+      .topic-grid,
+      .footer-grid,
+      .hero-card {
+        grid-template-columns: 1fr;
+      }
+      .nav-wrap { justify-content: flex-start; }
+      .search { min-width: 0; width: 100%; }
+      .actions { width: 100%; }
+      .header-inner { gap: var(--space-4); }
+      .mini-card { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .container { width: min(calc(100% - 1rem), var(--content)); }
+      .topbar-inner,
+      .header-inner,
+      .hero-copy,
+      .panel,
+      .story-body,
+      .mini-card,
+      .newsletter,
+      .topic-card,
+      .footer-card { padding-left: var(--space-4); padding-right: var(--space-4); }
+      .hero-card { min-height: auto; }
+      .nav { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); width: 100%; }
+      .nav summary, .nav-link { justify-content: center; }
+      .dropdown {
+        position: static;
+        margin-top: var(--space-2);
+        box-shadow: none;
+      }
+      .hero-copy h1 { font-size: clamp(2rem, 10vw, 3.1rem); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <div class="topbar-links">
+        <a href="#latest">Latest notes</a>
+        <a href="#projects">Projects</a>
+        <a href="#about">About Profundify</a>
+      </div>
+      <div class="meta-links">
+        <span>AI · Python · Cloud · Deeper thinking</span>
+      </div>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="Profundify home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 18V6h6.5a4 4 0 0 1 0 8H6"></path>
+            <path d="M12 14l5.5 4"></path>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>Profundify</strong>
+          <span>AI, Python, and deeper systems thinking</span>
+        </span>
+      </a>
+
+      <div class="nav-wrap">
+        <nav class="nav" aria-label="Primary navigation">
+          <details>
+            <summary>AI</summary>
+            <div class="dropdown">
+              <a href="#latest">LLM notes</a>
+              <a href="#latest">ML concepts</a>
+              <a href="#latest">AIG learning log</a>
+            </div>
+          </details>
+          <details>
+            <summary>Python</summary>
+            <div class="dropdown">
+              <a href="#projects">Course projects</a>
+              <a href="#projects">Scripts</a>
+              <a href="#projects">Automation</a>
+            </div>
+          </details>
+          <details>
+            <summary>Cloud</summary>
+            <div class="dropdown">
+              <a href="#topics">AWS path</a>
+              <a href="#topics">Deployment notes</a>
+              <a href="#topics">Architecture basics</a>
+            </div>
+          </details>
+          <a class="nav-link" href="#projects">Projects</a>
+          <a class="nav-link" href="#about">About</a>
+        </nav>
+      </div>
+
+      <div class="actions">
+        <label class="search" aria-label="Search posts">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle>
+            <path d="m20 20-3.5-3.5"></path>
+          </svg>
+          <input type="search" placeholder="Search notes, projects, topics" />
+        </label>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle color theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="container">
+    <section class="hero-grid" aria-labelledby="hero-title">
+      <article class="hero-card">
+        <div class="hero-copy">
+          <div>
+            <span class="eyebrow">Featured essay</span>
+            <h1 id="hero-title">Building AI skills without losing depth.</h1>
+          </div>
+          <p>
+            Profundify is a personal knowledge magazine for AI, Python, cloud learning, projects, and reflective notes. It is designed as a cleaner, more thoughtful editorial home for serious growth.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#latest">Read the latest notes</a>
+            <a class="btn btn-secondary" href="#projects">Browse projects</a>
+          </div>
+          <div class="meta">June 2026 · Editorial draft · 6 min orientation</div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hero-stack">
+            <div class="hero-note">
+              <strong>Current focus</strong>
+              <p>Python foundations, AI systems, clean presentation, and consistent learning logs.</p>
+            </div>
+            <div class="hero-note">
+              <strong>Site direction</strong>
+              <p>Magazine structure, but calmer than generic news sites and much more aligned with your own path.</p>
+            </div>
+            <div class="hero-note">
+              <strong>Long-term use</strong>
+              <p>A public record of projects, notes, AWS growth, and clear thinking.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <aside class="panel" aria-labelledby="editors-picks">
+        <h2 id="editors-picks">Editor’s picks</h2>
+        <div class="panel-list">
+          <div class="panel-item">
+            <div class="chip">AI</div>
+            <a href="#">What LLM observability means for practical builders</a>
+            <div class="meta">Notes · 5 min read</div>
+          </div>
+          <div class="panel-item">
+            <div class="chip">Python</div>
+            <a href="#">How I want to document my 100 Days of Python work</a>
+            <div class="meta">Project journal · 4 min read</div>
+          </div>
+          <div class="panel-item">
+            <div class="chip">Cloud</div>
+            <a href="#">The AWS concepts I want to understand before scaling this site</a>
+            <div class="meta">Cloud path · 6 min read</div>
+          </div>
+          <div class="panel-item">
+            <div class="chip">Insight</div>
+            <a href="#">Why Profundify should stay practical, not pseudo-profound</a>
+            <div class="meta">Brand note · 3 min read</div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="latest" aria-labelledby="latest-title">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Latest writing</div>
+          <h2 class="section-title" id="latest-title">Recent notes and essays</h2>
+        </div>
+        <p>A magazine-style content grid with one larger lead story and supporting posts underneath.</p>
+      </div>
+
+      <div class="story-grid">
+        <article class="story-card">
+          <div class="story-media" aria-hidden="true"></div>
+          <div class="story-body">
+            <div class="meta">Featured · AI systems · 7 min read</div>
+            <h3>How I want to learn AI: slowly, clearly, and with projects that compound.</h3>
+            <p>This lead story slot is ideal for your strongest weekly reflection, project breakdown, or systems-thinking article.</p>
+            <a class="btn btn-secondary" href="#">Read article</a>
+          </div>
+        </article>
+
+        <article class="story-card">
+          <div class="story-media" aria-hidden="true"></div>
+          <div class="story-body">
+            <div class="meta">Python · 5 min read</div>
+            <h3>Three Angela Yu projects worth turning into portfolio case studies.</h3>
+            <p>Shorter practical content can live here as supporting articles under the lead piece.</p>
+            <a class="btn btn-secondary" href="#">Read note</a>
+          </div>
+        </article>
+
+        <article class="story-card">
+          <div class="story-media" aria-hidden="true"></div>
+          <div class="story-body">
+            <div class="meta">Cloud · 4 min read</div>
+            <h3>My first clean roadmap from local code to cloud deployment.</h3>
+            <p>This card can spotlight AWS learning, hosting experiments, or infrastructure notes.</p>
+            <a class="btn btn-secondary" href="#">Read roadmap</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="projects" aria-labelledby="projects-title">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Projects</div>
+          <h2 class="section-title" id="projects-title">Build log and portfolio</h2>
+        </div>
+        <p>These rows are good for project cards, code demos, small tools, and learning milestones.</p>
+      </div>
+
+      <div class="content-layout">
+        <div class="main-column">
+          <article class="mini-card">
+            <div class="mini-thumb" aria-hidden="true"></div>
+            <div>
+              <div class="chip">Python project</div>
+              <h3>Habit tracker or automation script</h3>
+              <p>Use this slot for one finished Python build, what it does, what you learned, and a GitHub link.</p>
+            </div>
+          </article>
+
+          <article class="mini-card">
+            <div class="mini-thumb" aria-hidden="true"></div>
+            <div>
+              <div class="chip">AI lab</div>
+              <h3>Mini LLM or prompt-engineering experiment</h3>
+              <p>Good for experiments where the output matters less than the learning and explanation.</p>
+            </div>
+          </article>
+
+          <article class="mini-card">
+            <div class="mini-thumb" aria-hidden="true"></div>
+            <div>
+              <div class="chip">Course log</div>
+              <h3>100 Days of Python checkpoint</h3>
+              <p>Track progress in batches instead of logging every day. That keeps the site cleaner and more sustainable.</p>
+            </div>
+          </article>
+        </div>
+
+        <aside class="side-column">
+          <section class="newsletter" aria-labelledby="newsletter-title">
+            <div class="eyebrow">Stay connected</div>
+            <h3 id="newsletter-title">Get new Profundify posts</h3>
+            <p>This can later connect to your email platform, but for now it works as a strong layout block.</p>
+            <form>
+              <label class="sr-only" for="email">Email address</label>
+              <input id="email" type="email" placeholder="Email address" />
+              <button class="btn btn-primary" type="submit">Subscribe</button>
+            </form>
+          </section>
+
+          <section class="panel" aria-labelledby="popular-title">
+            <h2 id="popular-title">Popular topics</h2>
+            <div class="panel-list">
+              <div class="panel-item"><a href="#">Python foundations</a><div class="meta">Syntax, functions, data handling</div></div>
+              <div class="panel-item"><a href="#">AI learning path</a><div class="meta">Models, prompts, systems</div></div>
+              <div class="panel-item"><a href="#">AWS basics</a><div class="meta">Cloud terms, deployment, scaling</div></div>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="topics" aria-labelledby="topics-title">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Core sections</div>
+          <h2 class="section-title" id="topics-title">Topic hubs</h2>
+        </div>
+        <p>These cards replace broad magazine categories with a taxonomy that fits Profundify.</p>
+      </div>
+
+      <div class="topic-grid">
+        <article class="topic-card">
+          <div class="chip">AI</div>
+          <h3>Models, LLMs, prompts, and practical system notes.</h3>
+          <p>This section holds AI essays, explainers, and project reflections.</p>
+        </article>
+        <article class="topic-card">
+          <div class="chip">Python</div>
+          <h3>Code practice, scripts, and clean learning notes.</h3>
+          <p>A home for Angela Yu work, experiments, and useful snippets.</p>
+        </article>
+        <article class="topic-card">
+          <div class="chip">Cloud</div>
+          <h3>AWS learning, deployment steps, and future scaling.</h3>
+          <p>Useful for documenting the path from local machine to hosted app.</p>
+        </article>
+        <article class="topic-card">
+          <div class="chip">Insight</div>
+          <h3>Thoughtful notes on learning, attention, and depth.</h3>
+          <p>This is where your reflective side can live without taking over the whole site.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">About</div>
+          <h2 class="section-title" id="about-title">What Profundify is for</h2>
+        </div>
+        <p>A short founder-oriented section makes the page personal without turning it into a casual diary.</p>
+      </div>
+
+      <div class="panel">
+        <p>
+          Profundify is a public learning space for AI, Python, cloud exploration, and careful thinking. The goal is not to post everything, but to curate projects, notes, and ideas that show real growth over time.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <section class="footer-card">
+          <h3>Profundify</h3>
+          <p>A magazine-style home for projects, notes, and deeper technical learning.</p>
+        </section>
+        <section class="footer-card">
+          <h3>Explore</h3>
+          <ul>
+            <li><a href="#latest">Latest writing</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#topics">Topics</a></li>
+          </ul>
+        </section>
+        <section class="footer-card">
+          <h3>Sections</h3>
+          <ul>
+            <li><a href="#">AI</a></li>
+            <li><a href="#">Python</a></li>
+            <li><a href="#">Cloud</a></li>
+          </ul>
+        </section>
+        <section class="footer-card">
+          <h3>Contact</h3>
+          <ul>
+            <li><a href="mailto:hello@profundify.com">hello@profundify.com</a></li>
+            <li><a href="#about">About the project</a></li>
+            <li><a href="#">GitHub profile</a></li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="copyright">
+        <span>© 2026 Profundify. Built as a draft editorial homepage.</span>
+        <span>Designed for AI, Python, cloud, and reflective learning.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const btn = document.querySelector('[data-theme-toggle]');
+      let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.setAttribute('data-theme', theme);
+
+      function renderIcon(mode) {
+        btn.innerHTML = mode === 'dark'
+          ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>'
+          : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+      }
+
+      renderIcon(theme);
+      btn.addEventListener('click', function () {
+        theme = theme === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', theme);
+        renderIcon(theme);
+      });
+
+      document.querySelectorAll('.nav details').forEach((detail) => {
+        detail.addEventListener('toggle', () => {
+          if (!detail.open) return;
+          document.querySelectorAll('.nav details').forEach((other) => {
+            if (other !== detail) other.open = false;
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
