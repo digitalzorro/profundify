@@ -590,11 +590,33 @@
       }
       .hero-copy h1 { font-size: clamp(2rem, 10vw, 3.1rem); }
     }
+     .current-focus {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  border: 1px solid #d4d1ca;
+  border-radius: 12px;
+  background: #f9f8f5;
+}
 
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after { transition: none !important; }
-    }
+.current-focus h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.current-focus ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.current-focus li + li {
+  margin-top: 0.45rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; }
+}
+    
   </style>
 </head>
 <body>
@@ -608,7 +630,7 @@
         <a href="#about">About Profundify</a>
       </div>
       <div class="meta-links">
-        <span>AI · Python · Cloud · Deeper systems thinking and architecture </span>
+        <span>AI · Python · Cloud · Systems thinking and architecture </span>
       </div>
     </div>
   </div>
@@ -624,7 +646,7 @@
         </span>
         <span class="brand-text">
           <strong>Profundify</strong>
-          <span>AI, Python, and deeper systems thinking</span>
+          <span>AI · Python · Cloud · Systems thinking and architecture</span>
         </span>
       </a>
 
@@ -706,10 +728,19 @@
             <div class="hero-note">
               <strong>Long-term use</strong>
               <p>A public record of projects, notes, AWS growth, and clear thinking.</p>
+          
             </div>
           </div>
         </div>
       </article>
+      <section class="current-focus">
+  <h2>Current Focus</h2>
+  <ul>
+    <li>Building practical AI and Python projects.</li>
+    <li>Preparing for postgraduate AI studies.</li>
+    <li>Learning cloud skills step by step.</li>
+  </ul>
+</section>
 
       <aside class="panel" aria-labelledby="editors-picks">
         <h2 id="editors-picks">Editor’s picks</h2>
